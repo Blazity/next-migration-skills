@@ -10,6 +10,12 @@ description: >
 
 Run comprehensive validation checks on migrated code to ensure correctness and catch common migration issues.
 
+```
+NO MIGRATION IS COMPLETE WITHOUT A PASSING BUILD
+```
+
+"It compiles" is not "it works." "The validator passes" is not "the build succeeds." Run every step below. A migration claimed as complete without a passing build is not complete.
+
 ## Toolkit Setup
 
 ```bash

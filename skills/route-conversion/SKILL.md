@@ -10,6 +10,19 @@ description: >
 
 Convert a specific page from pages/ directory to app/ directory, handling data fetching migration, metadata extraction, and file structure changes.
 
+## Iron Law
+
+```
+ONE ROUTE AT A TIME. VALIDATE BEFORE MOVING ON. DELETE THE OLD FILE.
+```
+
+Every route follows the full cycle: analyze → convert → validate → delete old file → build.
+Skip a step? You'll ship broken code. "I'll validate later" means "I'll debug for hours later."
+
+**Prerequisites:**
+- **REQUIRED:** Run `migration-assessment` first if this is the start of a migration. No exceptions — even "simple" codebases have hidden blockers.
+- **REQUIRED:** Ensure `app/layout.tsx` exists before converting any route. If it doesn't, convert `pages/_app.tsx` + `pages/_document.tsx` first.
+
 ## Toolkit Setup
 
 ```bash
@@ -110,13 +123,40 @@ npx tsx "$TOOLKIT_DIR/src/bin/ast-tool.ts" transform imports <newFile>
 - Remove `next/head` imports
 - Update component imports for new file paths
 
-### 6. Validate the Converted Route
+### 6. Validate and Finalize
+
+**This step is NOT optional. Do not proceed to the next route without completing it.**
 
 ```bash
 npx tsx "$TOOLKIT_DIR/src/bin/ast-tool.ts" validate <appDir>
 ```
 
-Ensure no validation errors for the converted file.
+After validation passes:
+1. **Delete the old pages/ file.** The route must not exist in both directories.
+2. **Run `npx next build`** to catch type errors, missing exports, and boundary violations.
+3. Confirm the build succeeds before claiming this route is done.
+
+## Route Completion Checklist
+
+Before moving to the next route, verify ALL of these:
+
+- [ ] New `app/` file created with correct naming (`page.tsx` inside a folder)
+- [ ] Data fetching migrated (no getStaticProps/getServerSideProps/getStaticPaths)
+- [ ] Metadata extracted (no `next/head` or `<Head>` usage)
+- [ ] Imports updated (`next/navigation`, not `next/router`)
+- [ ] Validator passes with no errors
+- [ ] Old `pages/` file deleted
+- [ ] `npx next build` succeeds
+
+**Cannot check all boxes? The route is not done. Fix issues before proceeding.**
+
+## Red Flags — STOP If You Catch Yourself Thinking:
+
+- "I'll validate all the routes at the end" — No. Validate each route individually. Batch errors compound.
+- "I'll delete the old files later" — No. Delete immediately. Forgetting creates conflict errors.
+- "It compiles, so it's done" — Compiling is not validating. Run the validator AND build.
+- "This is a simple page, I can skip analysis" — Simple pages have hidden dependencies. Run the analyzer.
+- "I don't need to run assessment first, I can see what needs migrating" — Assessment catches blockers you can't see by reading code.
 
 ## Common Pitfalls
 
@@ -153,5 +193,7 @@ const searchParams = useSearchParams();
 const page = searchParams.get('page');
 ```
 
-### Running Pages Router and App Router simultaneously
-**Note**: During migration, both `pages/` and `app/` can coexist. But a route must not exist in both directories simultaneously — Next.js will throw a conflict error. Delete the `pages/` version after migrating each route to `app/`.
+### Route conflict from not deleting old file
+**Error**: `Conflicting app and page file was found` or route resolves to wrong page.
+**Cause**: The same route exists in both `pages/` and `app/`. Next.js does not know which to use.
+**Fix**: Delete the `pages/` file immediately after converting and validating the `app/` version. Do not batch deletions — delete as part of each route's conversion cycle.

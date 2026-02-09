@@ -10,6 +10,12 @@ description: >
 
 Analyze a Next.js Pages Router codebase to determine migration complexity, identify blockers, and produce a go/no-go recommendation.
 
+```
+NO MIGRATION WITHOUT ASSESSMENT FIRST
+```
+
+This skill MUST run before `route-conversion`, `component-migration`, `data-layer-migration`, or `migration-planning`. Even if the user says "just convert this one page" — run assessment first. Hidden blockers (incompatible dependencies, i18n config, custom webpack) can derail a migration mid-flight.
+
 ## Toolkit Setup
 
 ```bash
