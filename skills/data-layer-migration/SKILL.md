@@ -1,17 +1,9 @@
 ---
 name: data-layer-migration
 description: >
-  Migrate data-fetching patterns (getStaticProps, getServerSideProps,
-  getStaticPaths) and API routes (pages/api/) to App Router equivalents.
-  Covers: async server components with fetch(), generateStaticParams,
-  route handlers (GET/POST/PUT/DELETE), NextRequest/NextResponse,
-  request.json() vs req.body, cookies()/headers() from next/headers.
-  Use when: converting data fetching, migrating API routes, replacing
-  getStaticProps/getServerSideProps, creating route handlers, or fixing
-  data fetching in app/ directory. Keywords: data fetching, getStaticProps,
-  getServerSideProps, getStaticPaths, generateStaticParams, API routes,
-  route handler, fetch, revalidate, cache, NextRequest, NextResponse.
-  Related: route-conversion (handles this per-route), validation-testing (verify after).
+  Use when migrating getStaticProps, getServerSideProps, getStaticPaths,
+  or API routes (pages/api/) to App Router equivalents. Also use when
+  fixing stale data, cache behavior, or fetch errors in migrated pages.
 ---
 
 # Data Layer Migration

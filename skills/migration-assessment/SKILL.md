@@ -1,13 +1,9 @@
 ---
 name: migration-assessment
 description: >
-  First step before any migration. Assess a Next.js Pages Router codebase
-  for App Router migration readiness. Runs all analyzers (routes, components,
-  dependencies, dead-code, config) to produce a complexity score (1-10),
-  blockers list, and go/no-go recommendation. Use when: starting a migration,
-  evaluating feasibility, estimating effort, or auditing a codebase.
-  Keywords: assess, audit, evaluate, readiness, complexity, feasibility, estimate.
-  Run BEFORE: migration-planning, route-conversion, component-migration.
+  Use when starting a Next.js Pages Router to App Router migration, evaluating
+  migration feasibility, or auditing codebase readiness. Run this BEFORE any
+  other migration skill.
 ---
 
 # Migration Assessment

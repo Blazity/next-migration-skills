@@ -1,14 +1,9 @@
 ---
 name: migration-planning
 description: >
-  Create a phased, wave-based migration plan for moving Next.js from Pages
-  Router to App Router. Groups routes by difficulty (static -> ISR -> dynamic
-  -> API -> complex), identifies shared dependencies, and generates a
-  per-route checklist with rollback strategy. Use when: planning migration
-  order, scheduling work, creating tickets, or deciding what to migrate first.
-  Keywords: plan, schedule, phases, waves, order, prioritize, roadmap.
-  Requires: migration-assessment (run first).
-  Run BEFORE: route-conversion, component-migration, data-layer-migration.
+  Use when planning the order and phases of a Next.js Pages-to-App Router
+  migration, scheduling migration work, or deciding what to migrate first.
+  Requires migration-assessment first.
 ---
 
 # Migration Planning

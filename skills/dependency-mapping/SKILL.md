@@ -1,14 +1,9 @@
 ---
 name: dependency-mapping
 description: >
-  Analyze all npm dependencies and map them to App Router equivalents.
-  Classifies packages as: core (next, react), replaceable (with migration
-  notes), unknown (needs research), or dev tools. Generates install/uninstall
-  commands. Use when: checking package compatibility, updating dependencies,
-  replacing deprecated packages (next/router, next/image legacy), or auditing
-  node_modules. Keywords: dependencies, packages, npm, compatibility, replace,
-  update, next/router, next/image, RSC support.
-  Related: migration-assessment (runs this analyzer), component-migration.
+  Use when checking npm package compatibility with App Router, replacing
+  deprecated packages, or auditing dependencies before migration. Covers
+  next/router, next/image legacy, and RSC-incompatible packages.
 ---
 
 # Dependency Mapping
