@@ -1,0 +1,43 @@
+{
+  "imports": {
+    "next/router": {
+      "replacement": "next/navigation",
+      "namedExports": {
+        "useRouter": "useRouter",
+        "usePathname": "usePathname",
+        "useSearchParams": "useSearchParams",
+        "useParams": "useParams"
+      },
+      "note": "next/navigation provides App Router equivalents"
+    },
+    "next/head": {
+      "replacement": null,
+      "action": "remove",
+      "note": "Replace with Metadata API in layout.tsx or page.tsx"
+    },
+    "next/link": {
+      "replacement": "next/link",
+      "note": "No change needed, but <a> child is no longer required"
+    },
+    "next/image": {
+      "replacement": "next/image",
+      "note": "next/image is the same in App Router"
+    },
+    "next/legacy/image": {
+      "replacement": "next/image",
+      "note": "Migrate from legacy image to next/image"
+    },
+    "next/dynamic": {
+      "replacement": "next/dynamic",
+      "note": "Still works but consider React.lazy + Suspense"
+    },
+    "next/script": {
+      "replacement": "next/script",
+      "note": "No change needed"
+    },
+    "next/server": {
+      "replacement": "next/server",
+      "note": "NextRequest/NextResponse work the same"
+    }
+  }
+}
