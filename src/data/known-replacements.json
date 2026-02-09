@@ -1,0 +1,17 @@
+{
+  "next-seo": { "replacement": "@next/metadata", "note": "Use Metadata API in layout.tsx/page.tsx" },
+  "next-auth": { "replacement": "next-auth@5", "note": "Upgrade to v5 for App Router support" },
+  "next-i18next": { "replacement": "next-intl", "note": "next-intl has native App Router support" },
+  "next-translate": { "replacement": "next-intl", "note": "next-intl has native App Router support" },
+  "next-redux-wrapper": { "replacement": null, "note": "Not needed — use React Server Components or context" },
+  "next-connect": { "replacement": null, "note": "Use route.ts handler functions directly" },
+  "next-images": { "replacement": "next/image", "note": "Built-in next/image replaces this" },
+  "next-optimized-images": { "replacement": "next/image", "note": "Built-in next/image replaces this" },
+  "next-compose-plugins": { "replacement": null, "note": "next.config.js supports native composition" },
+  "next-transpile-modules": { "replacement": null, "note": "Built-in transpilePackages in next.config.js" },
+  "next-pwa": { "replacement": "@ducanh2912/next-pwa", "note": "Use App Router compatible fork" },
+  "next-sitemap": { "replacement": null, "note": "Use sitemap.ts in app/ directory" },
+  "next-mdx-remote": { "replacement": "next-mdx-remote@5", "note": "Upgrade to v5 for RSC support" },
+  "styled-jsx": { "replacement": null, "note": "Still supported but consider CSS Modules or Tailwind" },
+  "swr": { "replacement": "swr", "note": "Still works, but prefer server-side fetch in RSC" }
+}
