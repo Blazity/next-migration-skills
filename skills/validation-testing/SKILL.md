@@ -1,6 +1,16 @@
 ---
 name: validation-testing
-description: Verify correctness of migrated Next.js App Router code after each migration phase
+description: >
+  Verify correctness of migrated code after each migration phase. Runs
+  the migration validator to check: no next/router in app/ (must use
+  next/navigation), no old data-fetching exports, missing 'use client'
+  directives, orphaned files. Also checks import consistency, router
+  usage, build success (npx next build), and existing tests.
+  Use when: finished migrating a route, completed a migration phase,
+  checking for regressions, running smoke tests, or verifying the build.
+  Keywords: validate, verify, check, test, build, regression, smoke test,
+  correctness, migration errors, next/router, 'use client'.
+  Run AFTER: route-conversion, component-migration, data-layer-migration.
 ---
 
 # Validation & Testing

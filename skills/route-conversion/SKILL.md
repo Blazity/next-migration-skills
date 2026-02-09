@@ -1,6 +1,17 @@
 ---
 name: route-conversion
-description: Convert Next.js pages/ routes to app/ routes including file structure, data fetching, and metadata
+description: >
+  Convert a specific Next.js page from pages/ to app/ directory. Handles
+  file structure mapping (pages/about.tsx -> app/about/page.tsx), data
+  fetching migration (getStaticProps, getServerSideProps, getStaticPaths ->
+  async server components, generateStaticParams), metadata extraction
+  (next/head -> export metadata), and import rewriting (next/router ->
+  next/navigation). Use when: converting a route, migrating a page,
+  moving from pages/ to app/, handling getServerSideProps or getStaticProps.
+  Keywords: convert, route, page, getStaticProps, getServerSideProps,
+  getStaticPaths, generateStaticParams, metadata, next/head, pages/, app/.
+  Related: data-layer-migration (detailed data fetching patterns),
+  component-migration (client/server split), validation-testing (verify after).
 ---
 
 # Route Conversion

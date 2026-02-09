@@ -1,6 +1,18 @@
 ---
 name: component-migration
-description: Migrate React components for React Server Component compatibility, adding client directives and splitting where needed
+description: >
+  Migrate React components for RSC (React Server Component) compatibility.
+  Classifies components as client or server based on hooks (useState,
+  useEffect, useRouter), event handlers (onClick, onChange, onSubmit),
+  and browser APIs (window, document, localStorage). Adds 'use client'
+  directives, splits mixed components into server wrapper + client
+  interactive parts, and ensures props across the boundary are serializable.
+  Use when: adding 'use client', splitting components, handling useState/
+  useEffect in server components, fixing RSC boundary errors, migrating
+  forms or interactive UI. Keywords: component, client, server, RSC,
+  'use client', useState, useEffect, useRouter, onClick, forms, interactive,
+  split, boundary, serializable props.
+  Related: route-conversion (does this per-route), validation-testing (verify after).
 ---
 
 # Component Migration
