@@ -1,0 +1,9 @@
+import { NextRequest, NextResponse } from "next/server";
+
+{{#each methods}}
+export async function {{this}}(request: NextRequest) {
+  // TODO: Implement {{this}} handler
+  return NextResponse.json({ message: "{{this}} handler" });
+}
+
+{{/each}}

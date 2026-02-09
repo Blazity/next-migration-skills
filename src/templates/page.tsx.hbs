@@ -1,0 +1,29 @@
+{{#if isClient}}
+"use client";
+
+{{/if}}
+{{#if imports}}
+{{#each imports}}
+import {{this.default}} from "{{this.from}}";
+{{/each}}
+
+{{/if}}
+{{#if hasProps}}
+interface {{name}}PageProps {
+{{#each props}}
+  {{this.name}}{{#if this.optional}}?{{/if}}: {{this.type}};
+{{/each}}
+}
+
+{{/if}}
+export default {{#if isAsync}}async {{/if}}function {{name}}Page({{#if hasProps}}{ {{#each props}}{{this.name}}{{#unless @last}}, {{/unless}}{{/each}} }: {{name}}PageProps{{/if}}) {
+{{#if fetchData}}
+  const data = await fetch("{{{fetchUrl}}}", {{{fetchOptions}}});
+
+{{/if}}
+  return (
+    <div>
+      <h1>{{name}}</h1>
+    </div>
+  );
+}

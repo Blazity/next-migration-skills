@@ -1,0 +1,24 @@
+{{#if metadata}}
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "{{metadata.title}}",
+  description: "{{metadata.description}}",
+};
+
+{{/if}}
+export default function {{name}}Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    {{#if isRoot}}
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+    {{else}}
+    <>{children}</>
+    {{/if}}
+  );
+}
