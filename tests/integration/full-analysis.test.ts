@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 import path from "node:path";
-import { extractRoutes } from "../../src/ast/analyzers/route-extractor.js";
-import { inventoryComponents } from "../../src/ast/analyzers/component-inventory.js";
-import { analyzeDependencies } from "../../src/ast/analyzers/dependency-graph.js";
-import { analyzeConfig } from "../../src/ast/transforms/config.js";
-import { validateMigration } from "../../src/ast/analyzers/migration-validator.js";
+import { extractRoutes } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/route-extractor.js";
+import { inventoryComponents } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/component-inventory.js";
+import { analyzeDependencies } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/dependency-graph.js";
+import { analyzeConfig } from "../../skills/nextjs-migration-toolkit/src/ast/transforms/config.js";
+import { validateMigration } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/migration-validator.js";
 
 const FIXTURES = path.resolve("tests/fixtures/input");
 

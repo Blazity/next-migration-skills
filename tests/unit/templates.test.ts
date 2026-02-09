@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { renderLayout, renderPage, renderRoute, renderLoading, renderError } from "../../src/templates/render.js";
+import { renderLayout, renderPage, renderRoute, renderLoading, renderError } from "../../skills/nextjs-migration-toolkit/src/templates/render.js";
 
 describe("templates", () => {
   it("renders a root layout with metadata", () => {

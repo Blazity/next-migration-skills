@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { extractProps } from "../../src/ast/analyzers/prop-extractor.js";
+import { extractProps } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/prop-extractor.js";
 
 describe("extractProps", () => {
   it("extracts props from interface-typed component", () => {

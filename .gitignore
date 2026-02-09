@@ -4,3 +4,4 @@ dist/
 docs/plans/
 *.tgz
 .DS_Store
+skills/nextjs-migration-toolkit/node_modules/

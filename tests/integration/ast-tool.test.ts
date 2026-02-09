@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { execSync } from "node:child_process";
 import path from "node:path";
 
-const BIN = "npx tsx src/bin/ast-tool.ts";
+const BIN = "npx tsx skills/nextjs-migration-toolkit/src/bin/ast-tool.ts";
 const FIXTURES = path.resolve("tests/fixtures/input");
 
 function run(cmd: string): unknown {

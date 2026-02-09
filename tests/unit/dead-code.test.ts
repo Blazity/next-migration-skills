@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import path from "node:path";
-import { detectDeadExports } from "../../src/ast/analyzers/dead-code.js";
+import { detectDeadExports } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/dead-code.js";
 
 const FIXTURES = path.resolve("tests/fixtures/input/lib");
 

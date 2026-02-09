@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import path from "node:path";
-import { analyzeDependencies } from "../../src/ast/analyzers/dependency-graph.js";
+import { analyzeDependencies } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/dependency-graph.js";
 
 const FIXTURE_PKG = path.resolve("tests/fixtures/input/package.json");
 

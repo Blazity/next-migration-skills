@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { transformDataFetching } from "../../../src/ast/transforms/data-fetching.js";
+import { transformDataFetching } from "../../../skills/nextjs-migration-toolkit/src/ast/transforms/data-fetching.js";
 
 describe("transformDataFetching", () => {
   it("detects getStaticProps and suggests force-cache fetch", () => {

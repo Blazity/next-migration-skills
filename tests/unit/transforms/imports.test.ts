@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { transformImports } from "../../../src/ast/transforms/imports.js";
+import { transformImports } from "../../../skills/nextjs-migration-toolkit/src/ast/transforms/imports.js";
 
 describe("transformImports", () => {
   it("rewrites next/router to next/navigation", () => {

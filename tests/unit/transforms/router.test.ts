@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { transformRouter } from "../../../src/ast/transforms/router.js";
+import { transformRouter } from "../../../skills/nextjs-migration-toolkit/src/ast/transforms/router.js";
 
 describe("transformRouter", () => {
   it("detects router.push as compatible", () => {

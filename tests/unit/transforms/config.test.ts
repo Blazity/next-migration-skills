@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import path from "node:path";
-import { analyzeConfig } from "../../../src/ast/transforms/config.js";
+import { analyzeConfig } from "../../../skills/nextjs-migration-toolkit/src/ast/transforms/config.js";
 
 const FIXTURE_CONFIG = path.resolve("tests/fixtures/input/next.config.js");
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import path from "node:path";
-import { inventoryComponents } from "../../src/ast/analyzers/component-inventory.js";
+import { inventoryComponents } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/component-inventory.js";
 
 const FIXTURES = path.resolve("tests/fixtures/input/components");
 

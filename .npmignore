@@ -1,8 +1,6 @@
-src/
 tests/
 docs/
 .migration/
 *.test.ts
-tsconfig.json
 .gitignore
 .DS_Store

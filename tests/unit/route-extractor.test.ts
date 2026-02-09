@@ -1,6 +1,6 @@
 import path from "node:path";
 import { describe, it, expect } from "vitest";
-import { extractRoutes } from "../../src/ast/analyzers/route-extractor.js";
+import { extractRoutes } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/route-extractor.js";
 
 const PAGES_DIR = path.resolve(__dirname, "../fixtures/input/pages");
 

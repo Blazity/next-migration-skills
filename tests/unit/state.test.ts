@@ -7,7 +7,7 @@ import {
   readState,
   updatePhaseStatus,
   getResumePoint,
-} from "../../src/state/progress.js";
+} from "../../skills/nextjs-migration-toolkit/src/state/progress.js";
 
 const DEFAULT_PHASES = [
   "assessment",

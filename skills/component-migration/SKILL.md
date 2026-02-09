@@ -13,9 +13,17 @@ Migrate components for RSC (React Server Component) compatibility. Determine whi
 
 ## Toolkit Setup
 
+This skill requires the `nextjs-migration-toolkit` skill to be installed. All migration skills depend on it for AST analysis.
+
 ```bash
-TOOLKIT_DIR="$(cd "$(dirname "$SKILL_PATH")/../.." && pwd)"
-cd "$TOOLKIT_DIR" && bash scripts/setup.sh >/dev/null
+TOOLKIT_DIR="$(cd "$(dirname "$SKILL_PATH")/../nextjs-migration-toolkit" && pwd)"
+if [ ! -f "$TOOLKIT_DIR/package.json" ]; then
+  echo "ERROR: nextjs-migration-toolkit is not installed." >&2
+  echo "Run: npx skills add blazity/next-migration-skills -s nextjs-migration-toolkit" >&2
+  echo "Then retry this skill." >&2
+  exit 1
+fi
+bash "$TOOLKIT_DIR/scripts/setup.sh" >/dev/null
 ```
 
 ## Steps

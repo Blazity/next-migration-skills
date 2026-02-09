@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { parseFile, parseCode } from "../../src/ast/utils/parser.js";
+import { parseFile, parseCode } from "../../skills/nextjs-migration-toolkit/src/ast/utils/parser.js";
 
 describe("parseFile", () => {
   it("parses a TypeScript file and returns a SourceFile", () => {

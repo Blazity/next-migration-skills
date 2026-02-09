@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { transformImage } from "../../../src/ast/transforms/image.js";
+import { transformImage } from "../../../skills/nextjs-migration-toolkit/src/ast/transforms/image.js";
 
 describe("transformImage", () => {
   it("detects legacy image imports", () => {

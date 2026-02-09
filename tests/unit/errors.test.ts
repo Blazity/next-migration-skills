@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { logError, readErrors, resolveError } from "../../src/state/errors.js";
+import { logError, readErrors, resolveError } from "../../skills/nextjs-migration-toolkit/src/state/errors.js";
 
 describe("errors", () => {
   let tmpDir: string;

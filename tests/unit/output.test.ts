@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatJson, formatDiff } from "../../src/ast/utils/output.js";
+import { formatJson, formatDiff } from "../../skills/nextjs-migration-toolkit/src/ast/utils/output.js";
 
 describe("formatJson", () => {
   it("serializes data as pretty JSON", () => {

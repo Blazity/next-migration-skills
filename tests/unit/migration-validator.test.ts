@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import path from "node:path";
-import { validateMigration } from "../../src/ast/analyzers/migration-validator.js";
+import { validateMigration } from "../../skills/nextjs-migration-toolkit/src/ast/analyzers/migration-validator.js";
 
 const APP_FIXTURES = path.resolve("tests/fixtures/input/app");
 
