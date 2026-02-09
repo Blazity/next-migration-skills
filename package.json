@@ -3,13 +3,6 @@
   "version": "0.1.0",
   "description": "Agent-oriented skills and AST tools for migrating Next.js from Pages Router to App Router",
   "type": "module",
-  "bin": {
-    "ast-tool": "./dist/bin/ast-tool.js",
-    "route-extractor": "./dist/bin/route-extractor.js",
-    "component-inventory": "./dist/bin/component-inventory.js",
-    "dependency-analyzer": "./dist/bin/dependency-analyzer.js",
-    "migration-validator": "./dist/bin/migration-validator.js"
-  },
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/bin/ast-tool.ts",
