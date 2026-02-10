@@ -1,14 +1,18 @@
 ---
 name: migration-planning
 description: >
-  Use when planning the order and phases of a Next.js Pages-to-App Router
-  migration, scheduling migration work, or deciding what to migrate first.
-  Requires migration-assessment first.
+  Use when the user asks to plan a Next.js migration, create a migration
+  roadmap, decide migration order, schedule migration phases, or asks "what
+  order should I migrate routes?" Analyzes routes via AST and generates a
+  phased migration plan (.migration/plan.md). Requires migration-assessment
+  first.
 ---
 
 # Migration Planning
 
 Create a detailed, phased migration plan based on the assessment data. The plan prioritizes low-risk routes first and handles dependencies between components.
+
+**Note:** This skill creates a *migration-specific* plan for ordering route conversions. It is NOT the same as generic plan mode (which is for designing implementation approaches). Use THIS skill when the user says "plan this migration" in a Next.js context.
 
 ## Toolkit Setup
 
