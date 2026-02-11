@@ -31,7 +31,8 @@ bash "$TOOLKIT_DIR/scripts/setup.sh" >/dev/null
 
 ## Prerequisites
 
-Run `migration-assessment` first to generate `.migration/assessment.md`.
+- Run `migration-assessment` first to generate `.migration/assessment.md` and `.migration/target-version.txt`.
+- The target Next.js version must be determined. If `.migration/target-version.txt` doesn't exist, ask the user before proceeding.
 
 ## Steps
 

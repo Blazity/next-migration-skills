@@ -25,6 +25,25 @@ fi
 bash "$TOOLKIT_DIR/scripts/setup.sh" >/dev/null
 ```
 
+## Version-Specific Patterns
+
+Before applying any migration patterns, check the target Next.js version. Read `.migration/target-version.txt` if it exists, or ask the user.
+
+Then read the corresponding version patterns file:
+
+```bash
+SKILL_DIR="$(cd "$(dirname "$SKILL_PATH")" && pwd)"
+cat "$SKILL_DIR/../version-patterns/nextjs-<version>.md"
+```
+
+**Critical version differences that affect data-layer migration:**
+- **Next.js 14**: `cookies()` and `headers()` are SYNCHRONOUS — do NOT use `await`
+- **Next.js 15+**: `cookies()` and `headers()` are ASYNC — MUST use `await`
+- **Next.js 14**: fetch is cached by default — use `{ cache: 'no-store' }` for SSR replacement
+- **Next.js 15+**: fetch is NOT cached by default — SSR replacement needs no cache option
+
+The examples below show Next.js 15+ patterns with `await`. If targeting Next.js 14, remove the `await` from `cookies()` and `headers()` calls.
+
 ## Steps
 
 ### 1. Analyze Data Fetching Patterns
@@ -227,3 +246,29 @@ Verify no old data-fetching patterns remain in app/ directory.
 ### Route handler returning wrong type
 **Error**: Route handlers must return a `Response` object.
 **Fix**: Always return `NextResponse.json(data)`, `NextResponse.redirect()`, or `new Response(body)`. Don't return plain objects.
+
+### Converting server data fetching into client-side useEffect + fetch
+**Wrong**: The page had `getServerSideProps` that fetched data. You make the page `'use client'` and replace the data fetching with `useEffect`:
+```tsx
+// WRONG — data only appears after JS executes on the client
+'use client';
+import { useState, useEffect } from 'react';
+
+export default function Page() {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    fetch('/api/data').then(r => r.json()).then(setData);
+  }, []);
+  if (!data) return <p>Loading...</p>;
+  return <div>{data.value}</div>;
+}
+```
+**Right**: Keep data fetching in an async server component. Only extract interactive UI into a client component.
+```tsx
+// app/page.tsx (server component)
+export default async function Page() {
+  const data = await fetch('https://api.example.com/data', { cache: 'no-store' }).then(r => r.json());
+  return <div>{data.value}</div>;
+}
+```
+**Rule**: NEVER replace `getServerSideProps` or `getStaticProps` with `useEffect` + `fetch` in a client component. The data fetching MUST remain server-side in an async server component. The only reason to add `'use client'` is for interactive UI (hooks, event handlers), and that component receives already-fetched data as props.

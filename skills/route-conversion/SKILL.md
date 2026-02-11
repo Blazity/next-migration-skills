@@ -38,6 +38,25 @@ fi
 bash "$TOOLKIT_DIR/scripts/setup.sh" >/dev/null
 ```
 
+## Version-Specific Patterns
+
+Before applying any migration patterns, check the target Next.js version. Read `.migration/target-version.txt` if it exists, or ask the user.
+
+Then read the corresponding version patterns file:
+
+```bash
+SKILL_DIR="$(cd "$(dirname "$SKILL_PATH")" && pwd)"
+cat "$SKILL_DIR/../version-patterns/nextjs-<version>.md"
+```
+
+**Critical version differences that affect route conversion:**
+- **Next.js 14**: `params` and `searchParams` are plain objects — direct access
+- **Next.js 15+**: `params` and `searchParams` are Promises — MUST `await`
+- **Next.js 14**: `cookies()` is SYNCHRONOUS
+- **Next.js 15+**: `cookies()` is ASYNC — MUST `await`
+
+The examples below show patterns that work across versions. Check the version patterns file for exact syntax.
+
 ## Steps
 
 ### 1. Analyze the Source Route
@@ -200,6 +219,93 @@ const { slug } = useParams();
 const searchParams = useSearchParams();
 const page = searchParams.get('page');
 ```
+
+### Missing Suspense boundary for useSearchParams()
+**Error**: Page using `useSearchParams()` renders an error shell or empty HTML instead of content. Next.js logs: `useSearchParams() should be wrapped in a suspense boundary`.
+**Cause**: In App Router, `useSearchParams()` in a client component triggers a client-side-only render unless wrapped in `<Suspense>`. Without it, Next.js cannot statically render the page and returns an error boundary.
+**Fix**: Wrap the component using `useSearchParams()` in a `<Suspense>` boundary. The cleanest approach is a server page that wraps a client component:
+```tsx
+// app/search/page.tsx (server component)
+import { Suspense } from 'react';
+import { SearchContent } from './search-content';
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <SearchContent />
+    </Suspense>
+  );
+}
+```
+```tsx
+// app/search/search-content.tsx (client component)
+'use client';
+import { useSearchParams } from 'next/navigation';
+
+export function SearchContent() {
+  const searchParams = useSearchParams();
+  const q = searchParams.get('q') || '';
+  // ... render search results
+}
+```
+**Rule**: EVERY use of `useSearchParams()` MUST have a `<Suspense>` boundary as an ancestor. No exceptions.
+
+### Returning inline fallback JSX instead of notFound()
+**Wrong**: When `getServerSideProps` returned `{ notFound: true }`, replacing it with inline JSX that renders "not found" text with a 200 status:
+```tsx
+// WRONG — returns HTTP 200 with "not found" text
+export default async function UserPage({ params }) {
+  const user = getUser(params.id);
+  if (!user) return <p>User not found</p>; // HTTP 200!
+  return <div>{user.name}</div>;
+}
+```
+**Right**: Use `notFound()` from `next/navigation` to trigger the proper HTTP 404 response and the nearest `not-found.tsx` boundary:
+```tsx
+import { notFound } from 'next/navigation';
+
+export default async function UserPage({ params }) {
+  const user = getUser(params.id);
+  if (!user) notFound(); // HTTP 404!
+  return <div>{user.name}</div>;
+}
+```
+**Rule**: If the original `getServerSideProps` returned `{ notFound: true }`, the migrated page MUST call `notFound()` from `next/navigation`. NEVER replace it with inline fallback JSX.
+
+### Using manual wrapper components instead of nested layout.tsx
+**Wrong**: The Pages Router code wraps every dashboard page in a `<DashboardLayout>` component. You keep doing the same in App Router:
+```tsx
+// WRONG — manually wrapping each page
+// app/dashboard/page.tsx
+import { DashboardLayout } from '@/components/DashboardLayout';
+export default function DashboardPage() {
+  return <DashboardLayout><h1>Dashboard</h1></DashboardLayout>;
+}
+// app/dashboard/settings/page.tsx
+import { DashboardLayout } from '@/components/DashboardLayout';
+export default function SettingsPage() {
+  return <DashboardLayout><h1>Settings</h1></DashboardLayout>;
+}
+```
+**Right**: Create a `layout.tsx` in the shared route segment. App Router renders it automatically around all child pages:
+```tsx
+// app/dashboard/layout.tsx — applied automatically to ALL /dashboard/* pages
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ display: 'flex' }}>
+      <aside>/* sidebar nav */</aside>
+      <main>{children}</main>
+    </div>
+  );
+}
+```
+```tsx
+// app/dashboard/page.tsx — NO manual wrapper needed
+export default function DashboardPage() {
+  return <h1>Dashboard</h1>;
+}
+```
+**Rule**: When multiple pages in `pages/section/*` all import and render the same layout wrapper component, create `app/section/layout.tsx` instead. Do NOT manually wrap each page.
 
 ### Route conflict from not deleting old file
 **Error**: `Conflicting app and page file was found` or route resolves to wrong page.

@@ -33,6 +33,25 @@ bash "$TOOLKIT_DIR/scripts/setup.sh" >/dev/null
 
 ## Steps
 
+### 0. Determine Target Next.js Version
+
+Before any analysis, establish the target version. Check if the user or instruction already specified one. If not, ask the user:
+
+- **Next.js 16** (recommended — latest stable, full async APIs, best performance)
+- **Next.js 15** (async APIs with temporary sync compatibility)
+- **Next.js 14** (synchronous APIs, minimum App Router version)
+
+Save the choice to `.migration/target-version.txt` (just the major version number, e.g., `16`).
+
+Then read the version-specific patterns file to understand what APIs are available:
+
+```bash
+SKILL_DIR="$(cd "$(dirname "$SKILL_PATH")" && pwd)"
+cat "$SKILL_DIR/../version-patterns/nextjs-<version>.md"
+```
+
+These version-specific patterns govern how ALL subsequent migration steps work — every other skill should reference this file. The patterns determine whether `cookies()`, `headers()`, `params`, and `searchParams` are sync or async, how fetch caching works, and what package version to install.
+
 ### 1. Gather Codebase Metrics
 
 Run all analyzers to collect data:

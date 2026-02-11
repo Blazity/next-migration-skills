@@ -26,6 +26,21 @@ fi
 bash "$TOOLKIT_DIR/scripts/setup.sh" >/dev/null
 ```
 
+## Version-Specific Patterns
+
+Before applying any migration patterns, check the target Next.js version. Read `.migration/target-version.txt` if it exists, or ask the user.
+
+Then read the corresponding version patterns file:
+
+```bash
+SKILL_DIR="$(cd "$(dirname "$SKILL_PATH")" && pwd)"
+cat "$SKILL_DIR/../version-patterns/nextjs-<version>.md"
+```
+
+**Critical version differences that affect component migration:**
+- **Next.js 14**: `params` and `searchParams` in page components are plain objects
+- **Next.js 15+**: `params` and `searchParams` are Promises — async pages must `await` them, client pages must use `use()` from React
+
 ## Steps
 
 ### 1. Inventory All Components
@@ -185,3 +200,50 @@ export default function Layout() {
 }
 ```
 This works because `children` is a React node (serializable), not a component reference.
+
+### NEVER convert getServerSideProps data into useEffect + fetch
+**Wrong**: Page had `getServerSideProps` providing data as props. You make the whole page `'use client'` and fetch data in a `useEffect` + `useState`:
+```tsx
+// WRONG — "use client" page with useEffect
+'use client';
+import { useState, useEffect } from 'react';
+
+export default function AnalyticsPage() {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    fetch('/api/analytics').then(r => r.json()).then(setData);
+  }, []);
+  if (!data) return <p>Loading...</p>;
+  return <div>{data.pageViews}</div>;
+}
+```
+**Why this is broken**: The HTTP response contains only "Loading..." — real data appears only after JavaScript executes on the client. This destroys SSR, breaks SEO, and fails any test that checks the server-rendered HTML for data content.
+
+**Right**: Split into an async server component (fetches data) and a client component (handles interactivity). Data appears in the initial HTML response.
+```tsx
+// app/analytics/page.tsx (server component — NO 'use client')
+import { getAnalyticsData } from '@/lib/analytics';
+import { AnalyticsView } from './analytics-view';
+
+export default async function AnalyticsPage() {
+  const data = getAnalyticsData();
+  return <AnalyticsView data={data} />;
+}
+```
+```tsx
+// app/analytics/analytics-view.tsx (client component)
+'use client';
+import { useState } from 'react';
+
+export function AnalyticsView({ data }: { data: AnalyticsData }) {
+  const [view, setView] = useState<'overview' | 'pages'>('overview');
+  return (
+    <div>
+      <button onClick={() => setView('overview')}>Overview</button>
+      <button onClick={() => setView('pages')}>Top Pages</button>
+      {view === 'overview' ? <p>{data.pageViews}</p> : <p>...</p>}
+    </div>
+  );
+}
+```
+**Rule**: If the original page had `getServerSideProps` or `getStaticProps`, the data fetching MUST stay in a server component. NEVER move it into `useEffect`. The only code that goes into the client component is the interactive UI (useState, onClick, etc.), receiving data as props.
